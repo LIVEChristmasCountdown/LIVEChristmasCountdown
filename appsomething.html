@@ -1,0 +1,208 @@
+<<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Christmas Countdown</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(#08152e, #1b4b75);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            text-align: center;
+            z-index: 2;
+            padding: 30px;
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 7vw, 6rem);
+            text-shadow: 0 0 20px rgba(255,255,255,.4);
+            margin-bottom: 20px;
+        }
+
+        .subtitle {
+            font-size: clamp(1rem, 2vw, 1.5rem);
+            margin-bottom: 40px;
+            opacity: 0.9;
+        }
+
+        .countdown {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .time-box {
+            min-width: 130px;
+            padding: 25px 15px;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255,255,255,0.25);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0,0,0,.25);
+        }
+
+        .number {
+            display: block;
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            font-weight: bold;
+        }
+
+        .label {
+            display: block;
+            margin-top: 8px;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            color: #dcecff;
+        }
+
+        .message {
+            margin-top: 40px;
+            font-size: 1.3rem;
+        }
+
+        .snowflake {
+            position: fixed;
+            top: -20px;
+            color: white;
+            user-select: none;
+            pointer-events: none;
+            animation: fall linear forwards;
+            z-index: 1;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(110vh) rotate(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>🎄 CHRISTMAS COUNTDOWN 🎄</h1>
+
+        <p class="subtitle">How long until Christmas?</p>
+
+        <div class="countdown">
+
+            <div class="time-box">
+                <span class="number" id="days">0</span>
+                <span class="label">DAYS</span>
+            </div>
+
+            <div class="time-box">
+                <span class="number" id="hours">0</span>
+                <span class="label">HOURS</span>
+            </div>
+
+            <div class="time-box">
+                <span class="number" id="minutes">0</span>
+                <span class="label">MINUTES</span>
+            </div>
+
+            <div class="time-box">
+                <span class="number" id="seconds">0</span>
+                <span class="label">SECONDS</span>
+            </div>
+
+        </div>
+
+        <p class="message">🎅 Santa is coming! 🎁</p>
+    </div>
+
+    <script>
+        function getChristmas() {
+            const now = new Date();
+            let year = now.getFullYear();
+
+            let christmas = new Date(year, 11, 25, 0, 0, 0);
+
+            if (now >= christmas) {
+                christmas = new Date(year + 1, 11, 25, 0, 0, 0);
+            }
+
+            return christmas;
+        }
+
+        function updateCountdown() {
+            const now = new Date();
+            const christmas = getChristmas();
+
+            const difference = christmas - now;
+
+            const days = Math.floor(
+                difference / (1000 * 60 * 60 * 24)
+            );
+
+            const hours = Math.floor(
+                (difference / (1000 * 60 * 60)) % 24
+            );
+
+            const minutes = Math.floor(
+                (difference / (1000 * 60)) % 60
+            );
+
+            const seconds = Math.floor(
+                (difference / 1000) % 60
+            );
+
+            document.getElementById("days").textContent = days;
+            document.getElementById("hours").textContent =
+                String(hours).padStart(2, "0");
+
+            document.getElementById("minutes").textContent =
+                String(minutes).padStart(2, "0");
+
+            document.getElementById("seconds").textContent =
+                String(seconds).padStart(2, "0");
+        }
+
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+
+        // Snow effect
+        function createSnowflake() {
+            const snowflake = document.createElement("div");
+
+            snowflake.classList.add("snowflake");
+            snowflake.textContent = "❄";
+
+            snowflake.style.left = Math.random() * 100 + "vw";
+            snowflake.style.fontSize =
+                Math.random() * 20 + 10 + "px";
+
+            snowflake.style.animationDuration =
+                Math.random() * 5 + 5 + "s";
+
+            document.body.appendChild(snowflake);
+
+            setTimeout(() => {
+                snowflake.remove();
+            }, 10000);
+        }
+
+        setInterval(createSnowflake, 150);
+    </script>
+
+</body>
+</html>
