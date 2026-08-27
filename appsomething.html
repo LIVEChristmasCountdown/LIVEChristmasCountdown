@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>LIVEChristmasCountdown 2026</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+        }
+
+        body {
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            color: white;
+            text-align: center;
+
+            font-family: Georgia, "Times New Roman", serif;
+
+            /* SANTA + SNOWY TOWN BACKGROUND */
+            background:
+                linear-gradient(
+                    rgba(0, 0, 20, 0.20),
+                    rgba(0, 0, 0, 0.45)
+                ),
+                url("https://cdna.artstation.com/p/assets/images/images/000/304/078/large/london03_bak.jpg?1416155786");
+
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+
+        /* Dark overlay for better text visibility */
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+
+            background:
+                radial-gradient(
+                    circle at center,
+                    transparent 20%,
+                    rgba(0, 0, 0, 0.35) 100%
+                );
+
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* =========================
+           COUNTDOWN CONTENT
+        ========================== */
+
+        .content {
+            position: relative;
+            z-index: 10;
+
+            width: 100%;
+            padding: 30px;
+        }
+
+        .small-title {
+            font-size: 25px;
+            letter-spacing: 10px;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            font-size: clamp(55px, 10vw, 130px);
+            font-weight: 400;
+            letter-spacing: 15px;
+
+            text-shadow:
+                0 0 10px white,
+                0 0 25px white,
+                0 0 50px rgba(255,255,255,0.6);
+        }
+
+        .subtitle {
+            margin-top: 15px;
+            margin-bottom: 55px;
+
+            font-size: 24px;
+            letter-spacing: 8px;
+        }
+
+        /* =========================
+           COUNTDOWN
+        ========================== */
+
+        .countdown {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            gap: 30px;
+        }
+
+        .unit {
+            min-width: 150px;
+        }
+
+        .number {
+            font-size: clamp(50px, 7vw, 100px);
+            font-weight: 400;
+
+            color: white;
+
+            text-shadow:
+                0 0 10px #ff0000,
+                0 0 25px #ff2020,
+                0 0 50px rgba(255,0,0,0.7);
+        }
+
+        .label {
+            margin-top: 15px;
+
+            font-family: Arial, sans-serif;
+            font-size: 13px;
+            letter-spacing: 5px;
+
+            text-shadow: 0 2px 5px black;
+        }
+
+        .colon {
+            font-size: 70px;
+            margin-bottom: 30px;
+
+            text-shadow:
+                0 0 15px white;
+        }
+
+        /* =========================
+           TEXT BELOW COUNTDOWN
+        ========================== */
+
+        .countdown-footer {
+            margin-top: 35px;
+
+            font-size: 22px;
+            letter-spacing: 5px;
+
+            text-shadow:
+                0 2px 5px black;
+        }
+
+        .countdown-footer span {
+            display: block;
+
+            margin-top: 12px;
+
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            letter-spacing: 3px;
+
+            text-shadow:
+                0 2px 5px black;
+        }
+
+        /* =========================
+           FALLING SNOW
+        ========================== */
+
+        #snow-container {
+            position: fixed;
+            inset: 0;
+
+            pointer-events: none;
+
+            overflow: hidden;
+
+            z-index: 20;
+        }
+
+        .snowflake {
+            position: absolute;
+            top: -20px;
+
+            color: white;
+
+            user-select: none;
+
+            text-shadow:
+                0 0 5px white,
+                0 0 10px white;
+
+            animation-name: snowfall;
+            animation-timing-function: linear;
+            animation-iteration-count: infinite;
+        }
+
+        @keyframes snowfall {
+
+            0% {
+                transform:
+                    translate3d(0, -20px, 0)
+                    rotate(0deg);
+            }
+
+            25% {
+                transform:
+                    translate3d(30px, 25vh, 0)
+                    rotate(90deg);
+            }
+
+            50% {
+                transform:
+                    translate3d(-30px, 50vh, 0)
+                    rotate(180deg);
+            }
+
+            75% {
+                transform:
+                    translate3d(30px, 75vh, 0)
+                    rotate(270deg);
+            }
+
+            100% {
+                transform:
+                    translate3d(-20px, 110vh, 0)
+                    rotate(360deg);
+            }
+        }
+
+        /* =========================
+           FOOTER
+        ========================== */
+
+        footer {
+            position: fixed;
+
+            bottom: 18px;
+            left: 0;
+
+            width: 100%;
+
+            z-index: 30;
+
+            font-family: Arial, sans-serif;
+
+            font-size: 13px;
+
+            letter-spacing: 1px;
+
+            color: rgba(255,255,255,0.85);
+
+            text-shadow:
+                0 1px 5px black;
+        }
+
+        /* =========================
+           MOBILE
+        ========================== */
+
+        @media (max-width: 700px) {
+
+            .small-title {
+                font-size: 15px;
+                letter-spacing: 5px;
+            }
+
+            h1 {
+                font-size: 55px;
+                letter-spacing: 7px;
+            }
+
+            .subtitle {
+                font-size: 15px;
+                letter-spacing: 4px;
+                margin-bottom: 40px;
+            }
+
+            .countdown {
+                display: grid;
+
+                grid-template-columns: 1fr 1fr;
+
+                gap: 25px;
+            }
+
+            .unit {
+                min-width: auto;
+            }
+
+            .number {
+                font-size: 55px;
+            }
+
+            .colon {
+                display: none;
+            }
+
+            .label {
+                font-size: 10px;
+                letter-spacing: 3px;
+            }
+
+            .countdown-footer {
+                margin-top: 25px;
+                font-size: 16px;
+                letter-spacing: 3px;
+            }
+
+            .countdown-footer span {
+                font-size: 11px;
+                letter-spacing: 2px;
+            }
+
+            footer {
+                font-size: 10px;
+                bottom: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- =========================
+         FALLING SNOW
+    ========================== -->
+
+    <div id="snow-container"></div>
+
+
+    <!-- =========================
+         COUNTDOWN
+    ========================== -->
+
+    <div class="content">
+
+        <div class="small-title">
+            there are only
+        </div>
+
+        <h1>CHRISTMAS</h1>
+
+        <div class="subtitle">
+            — until christmas —
+        </div>
+
+
+        <div class="countdown">
+
+            <div class="unit">
+                <div class="number" id="days">000</div>
+                <div class="label">DAYS</div>
+            </div>
+
+            <div class="colon">:</div>
+
+            <div class="unit">
+                <div class="number" id="hours">00</div>
+                <div class="label">HOURS</div>
+            </div>
+
+            <div class="colon">:</div>
+
+            <div class="unit">
+                <div class="number" id="minutes">00</div>
+                <div class="label">MINUTES</div>
+            </div>
+
+            <div class="colon">:</div>
+
+            <div class="unit">
+                <div class="number" id="seconds">00</div>
+                <div class="label">SECONDS</div>
+            </div>
+
+        </div>
+
+
+        <!-- TEXT BELOW COUNTDOWN -->
+
+        <div class="countdown-footer">
+            — until Christmas —
+            <span>livechristmascountdown.com</span>
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         COPYRIGHT
+    ========================== -->
+
+    <footer>
+        © 2026 LIVEChristmasCountdown — All Rights Reserved
+    </footer>
+
+
+    <script>
+
+        /* =========================
+           CHRISTMAS COUNTDOWN
+        ========================== */
+
+        function updateCountdown() {
+
+            const now = new Date();
+
+            const christmas =
+                new Date("December 25, 2026 00:00:00");
+
+            const difference =
+                christmas - now;
+
+
+            if (difference <= 0) {
+
+                document.getElementById("days").textContent = "000";
+                document.getElementById("hours").textContent = "00";
+                document.getElementById("minutes").textContent = "00";
+                document.getElementById("seconds").textContent = "00";
+
+                return;
+            }
+
+
+            const days =
+                Math.floor(
+                    difference /
+                    (1000 * 60 * 60 * 24)
+                );
+
+
+            const hours =
+                Math.floor(
+                    (difference /
+                    (1000 * 60 * 60)) % 24
+                );
+
+
+            const minutes =
+                Math.floor(
+                    (difference /
+                    (1000 * 60)) % 60
+                );
+
+
+            const seconds =
+                Math.floor(
+                    (difference / 1000) % 60
+                );
+
+
+            document.getElementById("days").textContent =
+                String(days).padStart(3, "0");
+
+
+            document.getElementById("hours").textContent =
+                String(hours).padStart(2, "0");
+
+
+            document.getElementById("minutes").textContent =
+                String(minutes).padStart(2, "0");
+
+
+            document.getElementById("seconds").textContent =
+                String(seconds).padStart(2, "0");
+        }
+
+
+        updateCountdown();
+
+        setInterval(updateCountdown, 1000);
+
+
+
+        /* =========================
+           CREATE FALLING SNOW
+        ========================== */
+
+        const snowContainer =
+            document.getElementById("snow-container");
+
+
+        const snowCharacters = [
+            "❄",
+            "❅",
+            "❆",
+            "•"
+        ];
+
+
+        const snowAmount = 120;
+
+
+        for (let i = 0; i < snowAmount; i++) {
+
+            const snowflake =
+                document.createElement("div");
+
+
+            snowflake.className =
+                "snowflake";
+
+
+            snowflake.textContent =
+                snowCharacters[
+                    Math.floor(
+                        Math.random() *
+                        snowCharacters.length
+                    )
+                ];
+
+
+            /* Random horizontal position */
+
+            snowflake.style.left =
+                Math.random() * 100 + "vw";
+
+
+            /* Random size */
+
+            const size =
+                Math.random() * 14 + 5;
+
+            snowflake.style.fontSize =
+                size + "px";
+
+
+            /* Random opacity */
+
+            snowflake.style.opacity =
+                Math.random() * 0.7 + 0.3;
+
+
+            /* Random falling speed */
+
+            const speed =
+                Math.random() * 12 + 7;
+
+            snowflake.style.animationDuration =
+                speed + "s";
+
+
+            /* Make every snowflake start at a different time */
+
+            snowflake.style.animationDelay =
+                "-" +
+                Math.random() * 20 +
+                "s";
+
+
+            snowContainer.appendChild(
+                snowflake
+            );
+        }
+
+    </script>
+
+</body>
+</html>
